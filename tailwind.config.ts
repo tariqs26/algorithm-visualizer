@@ -55,6 +55,16 @@ const config: Config = {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      keyframes: {
+        path: {
+          "0%": { transform: "scale(0.6)" },
+          "50%": { transform: "scale(1.2)" },
+          "100%": { transform: "scale(1)" },
+        },
+      },
+      animation: {
+        path: "path 1s ease-in-out alternate",
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],
