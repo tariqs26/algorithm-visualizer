@@ -1,36 +1,75 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Algorithm Visualizer
+
+A web application for visualizing popular pathfinding and sorting algorithms built with [Next.js](https://nextjs.org/), [React](https://reactjs.org/), [TypeScript](https://www.typescriptlang.org/), and [Tailwind CSS](https://tailwindcss.com/).
+
+## Features
+
+### Pathfinding
+
+- Visualize:
+  - **Dijkstra's**
+  - **A\* Search**
+  - **Greedy Best-First Search**
+  - **Depth-First Search (DFS)**
+  - **Breadth-First Search (BFS)**
+- Interactive and resizable grid for drawing walls and dragging start/end nodes
+- Generate and visualize mazes using **pseudo-random**, **binary tree**, or **recursive backtracking** algorithms
+
+### Sorting
+
+- Visualize:
+  - **Bubble Sort**
+  - **Selection Sort**
+  - **Insertion Sort**
+  - **Merge Sort**
+  - **Quick Sort**
+  - **Heap Sort**
+- Generate random arrays
+- Customize the size of arrays
+
+### General
+
+- Light/dark mode
+- Adjustable visualization speed
 
 ## Getting Started
 
-First, run the development server:
+To set up the project locally, follow these steps:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+1. **Clone the repository:**
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+   ```bash
+   git clone https://github.com/tariqs26/algorithm-visualizer.git
+   ```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+2. **Navigate to the project directory:**
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+   ```bash
+   cd algorithm-visualizer
+   ```
 
-## Learn More
+3. **Install the dependencies:**
 
-To learn more about Next.js, take a look at the following resources:
+   ```bash
+   npm install
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+4. **Start the development server:**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+   ```bash
+   npm run dev
+   ```
 
-## Deploy on Vercel
+   The application will be running on `http://localhost:3000`.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Available Scripts
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Inside the project directory, you can run the following scripts:
+
+| Command          | Description                           |
+| ---------------- | ------------------------------------- |
+| `npm run dev`    | Starts the development server         |
+| `npm run build`  | Builds the application for production |
+| `npm run start`  | Runs the production server            |
+| `npm run lint`   | Lints the codebase using ESLint       |
+| `npm run format` | Formats the code using Prettier       |
