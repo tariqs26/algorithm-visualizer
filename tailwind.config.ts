@@ -11,10 +11,6 @@ const config: Config = {
       colors: {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
-        card: {
-          DEFAULT: "hsl(var(--card))",
-          foreground: "hsl(var(--card-foreground))",
-        },
         popover: {
           DEFAULT: "hsl(var(--popover))",
           foreground: "hsl(var(--popover-foreground))",
@@ -42,13 +38,6 @@ const config: Config = {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
-        chart: {
-          "1": "hsl(var(--chart-1))",
-          "2": "hsl(var(--chart-2))",
-          "3": "hsl(var(--chart-3))",
-          "4": "hsl(var(--chart-4))",
-          "5": "hsl(var(--chart-5))",
-        },
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -56,14 +45,45 @@ const config: Config = {
         sm: "calc(var(--radius) - 4px)",
       },
       keyframes: {
+        wall: {
+          "0%": { transform: "scale(0.7)" },
+        },
+        visited: {
+          "0%": {
+            transform: "scale(0.3)",
+            backgroundColor: "#9333eabf",
+            borderRadius: "100%",
+          },
+          "50%": {
+            backgroundColor: "#4f46e5bf",
+          },
+          "75%": {
+            transform: "scale(1.2)",
+            backgroundColor: "#3b82f6bf",
+          },
+          "100%": { backgroundColor: "#22d3ee" },
+        },
         path: {
-          "0%": { transform: "scale(0.6)" },
-          "50%": { transform: "scale(1.2)" },
-          "100%": { transform: "scale(1)" },
+          "0%": {
+            transform: "scale(0.3)",
+            backgroundColor: "#e11d48bf",
+            borderRadius: "100%",
+          },
+          "50%": { backgroundColor: "#ea580cbf" },
+          "75%": {
+            transform: "scale(1.2)",
+            backgroundColor: "#fb923cbf",
+          },
+          "90%": {
+            transform: "scale(0.8)",
+            backgroundColor: "#fde68a",
+          },
         },
       },
       animation: {
-        path: "path 1s ease-in-out alternate",
+        wall: "wall 300ms cubic-bezier(0.4, 0, 0.2, 1)",
+        visited: "visited 750ms linear",
+        path: "path 1s cubic-bezier(0, 0, 0.2, 1)",
       },
     },
   },
