@@ -15,7 +15,7 @@ export const SmallViewportCard = () => (
       <video
         className="h-full w-full object-cover"
         controls
-        poster="/placeholder.svg"
+        poster="/og-image.jpg"
       >
         <source src="/preview.mp4" type="video/mp4" />
         Your browser does not support the video tag.
