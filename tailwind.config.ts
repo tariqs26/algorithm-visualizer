@@ -82,7 +82,7 @@ const config: Config = {
       },
       animation: {
         wall: "wall 300ms cubic-bezier(0.4, 0, 0.2, 1)",
-        visited: "visited 750ms linear",
+        visited: "visited 500ms cubic-bezier(0, 0, 0.2, 1)",
         path: "path 1s cubic-bezier(0, 0, 0.2, 1)",
       },
     },
