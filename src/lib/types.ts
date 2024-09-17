@@ -7,7 +7,9 @@ export type AlgorithmType = "sorting" | "pathfinding"
 export type PathFindingAlgorithmType = keyof typeof pathFinder
 
 export type PathFindingAlgorithm = (
-  context: VisualizerContextType
+  grid: Grid,
+  delay: number,
+  setGrid: (grid: Grid) => void
 ) => Promise<{ newGrid: Grid; target: Cell }>
 
 export type MazeAlgorithmType = keyof typeof mazeGenerator
@@ -33,20 +35,19 @@ export type SortingAlgorithmType = keyof typeof sorter
 
 export type SortingAlgorithm = (context: VisualizerContextType) => Promise<void>
 
-export type ArrayItem = {
+type ArrayItem = {
   height: number
   isSorted: boolean
   isSwapping?: boolean
 }
 
-export type Status = "idle" | "running" | "completed"
+type Status = "idle" | "running" | "completed"
 
-export type Dispatch<T> = React.Dispatch<React.SetStateAction<T>>
-
-export type VisualizerContextType = {
+export type VisualizerState = {
   algorithmType: AlgorithmType
   delay: number
   output: string[]
+  startTime: number
   status: Status
   pathFindingAlgorithm: PathFindingAlgorithmType
   mazeAlgorithm: MazeAlgorithmType
@@ -55,16 +56,25 @@ export type VisualizerContextType = {
   sortingAlgorithm: SortingAlgorithmType
   array: ArrayItem[]
   arrayLength: number
-  setAlgorithmType: Dispatch<AlgorithmType>
-  setDelay: Dispatch<number>
-  addOutput: (message: string) => void
-  setStatus: Dispatch<Status>
-  resetVisualizer: () => void
-  setPathFindingAlgorithm: Dispatch<PathFindingAlgorithmType>
-  setMazeAlgorithm: Dispatch<MazeAlgorithmType>
-  setGridDimensions: Dispatch<GridDimensions | undefined>
-  setGrid: Dispatch<Grid>
-  setSortingAlgorithm: Dispatch<SortingAlgorithmType>
-  setArray: Dispatch<ArrayItem[]>
-  setArrayLength: Dispatch<number>
+}
+
+export type VisualizerAction =
+  | { type: "SET_ALGORITHM_TYPE"; payload: AlgorithmType }
+  | { type: "SET_DELAY"; payload: number }
+  | { type: "ADD_OUTPUT"; payload: string }
+  | { type: "SET_START_TIME"; payload: number }
+  | { type: "SET_STATUS"; payload: Status }
+  | { type: "SET_PATH_FINDING_ALGORITHM"; payload: PathFindingAlgorithmType }
+  | { type: "SET_MAZE_ALGORITHM"; payload: MazeAlgorithmType }
+  | { type: "SET_GRID_DIMENSIONS"; payload: GridDimensions | undefined }
+  | { type: "SET_GRID"; payload: Grid }
+  | { type: "DRAW_GRID_WALL"; payload: Pick<Cell, "row" | "col"> }
+  | { type: "SET_SORTING_ALGORITHM"; payload: SortingAlgorithmType }
+  | { type: "SET_ARRAY"; payload: ArrayItem[] }
+  | { type: "SET_ARRAY_LENGTH"; payload: number }
+  | { type: "RESET_VISUALIZER" | "RANDOMIZE_ARRAY" | "SORT_ARRAY" }
+
+export type VisualizerContextType = {
+  state: VisualizerState
+  dispatch: React.Dispatch<VisualizerAction>
 }

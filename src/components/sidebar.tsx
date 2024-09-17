@@ -4,9 +4,10 @@ import { Dice5, Loader2, Play, RotateCcw, WandSparkles } from "lucide-react"
 import { pathFinder, runPathFindingAlgorithm } from "@/lib/pathfinding"
 import { clearWalls } from "@/lib/pathfinding/grid"
 import { mazeGenerator } from "@/lib/pathfinding/maze"
-import { randomizeArray, sorter } from "@/lib/sorting"
+import { sorter } from "@/lib/sorting"
 import type {
   AlgorithmType,
+  Grid,
   MazeAlgorithmType,
   PathFindingAlgorithmType,
   SortingAlgorithmType,
@@ -27,7 +28,7 @@ import { Slider } from "./ui/slider"
 
 export const Sidebar = () => {
   const [mazeGenerating, setMazeGenerating] = useState(false)
-  const visualizer = useVisualizer()
+  const { state, dispatch } = useVisualizer()
   const {
     algorithmType,
     sortingAlgorithm,
@@ -38,18 +39,7 @@ export const Sidebar = () => {
     output,
     delay,
     status,
-    setAlgorithmType,
-    setSortingAlgorithm,
-    setPathFindingAlgorithm,
-    setMazeAlgorithm,
-    setArray,
-    setArrayLength,
-    setGrid,
-    setDelay,
-    addOutput,
-    setStatus,
-    resetVisualizer,
-  } = visualizer
+  } = state
 
   const disabledControls = status !== "idle" || mazeGenerating
 
@@ -63,30 +53,33 @@ export const Sidebar = () => {
 
   const handleGenerateMaze = () => {
     const maze = mazeGenerator[mazeAlgorithm]
-    if (maze.label === "Random") setGrid(maze.algorithm(grid))
+    if (maze.label === "Random")
+      dispatch({ type: "SET_GRID", payload: maze.algorithm(grid) })
     else {
       setMazeGenerating(true)
-      maze.algorithm(grid, delay, setGrid).then(() => {
-        setMazeGenerating(false)
-      })
+      maze
+        .algorithm(grid, delay, (grid: Grid) => {
+          dispatch({ type: "SET_GRID", payload: grid })
+        })
+        .then(() => setMazeGenerating(false))
     }
   }
 
   const handleStartVisualization = () => {
     let label = ""
     if (algorithmType === "sorting") {
-      sorter[sortingAlgorithm].algorithm(visualizer).then(() => {
-        setStatus("completed")
+      sorter[sortingAlgorithm].algorithm({ state, dispatch }).then(() => {
+        dispatch({ type: "SET_STATUS", payload: "completed" })
       })
       label = sorter[sortingAlgorithm].label
     } else {
       runPathFindingAlgorithm(
-        visualizer,
+        { state, dispatch },
         pathFinder[pathFindingAlgorithm].algorithm
       )
       label = pathFinder[pathFindingAlgorithm].label
     }
-    addOutput(`Started: ${label}`)
+    dispatch({ type: "ADD_OUTPUT", payload: `Started: ${label}` })
   }
 
   return (
@@ -102,7 +95,9 @@ export const Sidebar = () => {
         <Select
           name="visualization-type"
           value={algorithmType}
-          onValueChange={(value: AlgorithmType) => setAlgorithmType(value)}
+          onValueChange={(value: AlgorithmType) =>
+            dispatch({ type: "SET_ALGORITHM_TYPE", payload: value })
+          }
           disabled={disabledControls}
         >
           <SelectTrigger className="bg-background">
@@ -123,7 +118,7 @@ export const Sidebar = () => {
             <Select
               value={sortingAlgorithm}
               onValueChange={(value: SortingAlgorithmType) =>
-                setSortingAlgorithm(value)
+                dispatch({ type: "SET_SORTING_ALGORITHM", payload: value })
               }
               disabled={disabledControls}
             >
@@ -146,7 +141,9 @@ export const Sidebar = () => {
             <Slider
               name="array-length"
               value={[arrayLength]}
-              onValueChange={(value) => setArrayLength(value[0])}
+              onValueChange={(value) =>
+                dispatch({ type: "SET_ARRAY_LENGTH", payload: value[0] })
+              }
               min={20}
               max={80}
               step={5}
@@ -164,7 +161,7 @@ export const Sidebar = () => {
               name="pathfinding-algorithms"
               value={pathFindingAlgorithm}
               onValueChange={(value: PathFindingAlgorithmType) =>
-                setPathFindingAlgorithm(value)
+                dispatch({ type: "SET_PATH_FINDING_ALGORITHM", payload: value })
               }
               disabled={disabledControls}
             >
@@ -188,7 +185,7 @@ export const Sidebar = () => {
               name="maze-generation"
               value={mazeAlgorithm}
               onValueChange={(value: MazeAlgorithmType) =>
-                setMazeAlgorithm(value)
+                dispatch({ type: "SET_MAZE_ALGORITHM", payload: value })
               }
               disabled={disabledControls}
             >
@@ -209,7 +206,9 @@ export const Sidebar = () => {
                 className="w-full"
                 variant="destructive"
                 disabled={disabledControls}
-                onClick={() => setGrid(clearWalls)}
+                onClick={() => {
+                  dispatch({ type: "SET_GRID", payload: clearWalls(grid) })
+                }}
               >
                 Clear Walls
               </Button>
@@ -237,9 +236,9 @@ export const Sidebar = () => {
         <Slider
           name="speed"
           value={[100 - delay]}
-          onValueChange={(value) => {
-            setDelay(100 - value[0])
-          }}
+          onValueChange={(value) =>
+            dispatch({ type: "SET_DELAY", payload: 100 - value[0] })
+          }
           min={0}
           max={100}
           disabled={disabledControls}
@@ -247,9 +246,7 @@ export const Sidebar = () => {
       </fieldset>
       {algorithmType === "sorting" && (
         <Button
-          onClick={() => {
-            setArray(randomizeArray(arrayLength))
-          }}
+          onClick={() => dispatch({ type: "RANDOMIZE_ARRAY" })}
           disabled={disabledControls}
         >
           <Dice5 className="mr-2 h-4 w-4" />
@@ -257,7 +254,7 @@ export const Sidebar = () => {
         </Button>
       )}
       <Button
-        onClick={() => resetVisualizer()}
+        onClick={() => dispatch({ type: "RESET_VISUALIZER" })}
         variant="destructive"
         disabled={status !== "completed"}
       >

@@ -1,14 +1,24 @@
-import type { PathFindingAlgorithm, VisualizerContextType } from "../types"
+import type {
+  Grid,
+  PathFindingAlgorithm,
+  VisualizerContextType,
+} from "../types"
 import { sleep } from "../utils"
 import { aStar, bfs, dfs, dijkstra, greedy } from "./algorithms"
 import { isStartOrTarget } from "./grid"
 
 export const runPathFindingAlgorithm = async (
-  context: VisualizerContextType,
+  { state, dispatch }: VisualizerContextType,
   algorithm: PathFindingAlgorithm
 ) => {
-  context.setStatus("running")
-  const { newGrid, target } = await algorithm(context)
+  dispatch({ type: "SET_STATUS", payload: "running" })
+  const { newGrid, target } = await algorithm(
+    state.grid,
+    state.delay,
+    (grid: Grid) => {
+      dispatch({ type: "SET_GRID", payload: grid })
+    }
+  )
 
   const path = []
   for (let current = target; current.previous; current = current.previous)
@@ -16,11 +26,11 @@ export const runPathFindingAlgorithm = async (
 
   for (const cell of path) {
     cell.type = "path"
-    context.setGrid([...newGrid])
-    await sleep(context.delay)
+    dispatch({ type: "SET_GRID", payload: [...newGrid] })
+    await sleep(state.delay)
   }
 
-  context.setStatus("completed")
+  dispatch({ type: "SET_STATUS", payload: "completed" })
 }
 
 export const pathFinder = {

@@ -1,4 +1,4 @@
-import type { Dispatch, Grid } from "../types"
+import type { Grid } from "../types"
 import { sleep } from "../utils"
 import { clearWalls, isStartOrTarget } from "./grid"
 import { constructBorder, recursiveDivision } from "./recursive-division"
@@ -17,7 +17,7 @@ const generateRandomMaze = (grid: Grid) => {
 const createWalls = async (
   grid: Grid,
   delay: number,
-  setGrid: Dispatch<Grid>
+  setGrid: (grid: Grid) => void
 ) => {
   const newGrid: Grid = [...grid]
 
@@ -37,7 +37,7 @@ const createWalls = async (
 const generateBinaryTreeMaze = async (
   grid: Grid,
   delay: number,
-  setGrid: Dispatch<Grid>
+  setGrid: (grid: Grid) => void
 ) => {
   const newGrid = await createWalls(grid, delay, setGrid)
 
@@ -70,7 +70,7 @@ const generateBinaryTreeMaze = async (
 export const generateRecursiveDivisionMaze = async (
   grid: Grid,
   delay: number,
-  setGrid: Dispatch<Grid>
+  setGrid: (grid: Grid) => void
 ) => {
   const newGrid = await constructBorder(grid, delay, setGrid)
   await recursiveDivision({

@@ -9,7 +9,7 @@ import { sleep } from "../utils"
 import { getNeighbours, getStartAndTarget, heuristic } from "./grid"
 import { MinPriorityQueue } from "./min-priority-queue"
 
-const dijkstra: PathFindingAlgorithm = async ({ grid, delay, setGrid }) => {
+export const dijkstra: PathFindingAlgorithm = async (grid, delay, setGrid) => {
   const newGrid: Grid<DistanceCell> = grid.map((row) =>
     row.map((cell) => ({ ...cell, distance: Number.POSITIVE_INFINITY }))
   )
@@ -46,7 +46,7 @@ const dijkstra: PathFindingAlgorithm = async ({ grid, delay, setGrid }) => {
   return { newGrid, target }
 }
 
-const aStar: PathFindingAlgorithm = async ({ grid, delay, setGrid }) => {
+export const aStar: PathFindingAlgorithm = async (grid, delay, setGrid) => {
   const newGrid: Grid<AStarCell> = grid.map((row) =>
     row.map((cell) => ({
       ...cell,
@@ -89,7 +89,7 @@ const aStar: PathFindingAlgorithm = async ({ grid, delay, setGrid }) => {
   return { newGrid, target }
 }
 
-const greedy: PathFindingAlgorithm = async ({ grid, delay, setGrid }) => {
+export const greedy: PathFindingAlgorithm = async (grid, delay, setGrid) => {
   const newGrid: Grid<DistanceCell> = grid.map((row) =>
     row.map((cell) => ({ ...cell, distance: Number.POSITIVE_INFINITY }))
   )
@@ -121,7 +121,7 @@ const greedy: PathFindingAlgorithm = async ({ grid, delay, setGrid }) => {
   return { newGrid, target }
 }
 
-const dfs: PathFindingAlgorithm = async ({ grid, delay, setGrid }) => {
+export const dfs: PathFindingAlgorithm = async (grid, delay, setGrid) => {
   const newGrid = [...grid]
   const { start, target } = getStartAndTarget(newGrid)
 
@@ -149,7 +149,7 @@ const dfs: PathFindingAlgorithm = async ({ grid, delay, setGrid }) => {
   return { newGrid, target }
 }
 
-const bfs: PathFindingAlgorithm = async ({ grid, delay, setGrid }) => {
+export const bfs: PathFindingAlgorithm = async (grid, delay, setGrid) => {
   const newGrid = [...grid]
   const { start, target } = getStartAndTarget(newGrid)
 
@@ -176,5 +176,3 @@ const bfs: PathFindingAlgorithm = async ({ grid, delay, setGrid }) => {
 
   return { newGrid, target }
 }
-
-export { aStar, bfs, dfs, dijkstra, greedy }

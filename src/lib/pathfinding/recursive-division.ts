@@ -1,4 +1,4 @@
-import type { Dispatch, Grid } from "../types"
+import type { Grid } from "../types"
 import { sleep } from "../utils"
 import { clearWalls, isStartOrTarget } from "./grid"
 
@@ -10,7 +10,7 @@ const randomInt = (min: number, max: number) =>
 export const constructBorder = async (
   grid: Grid,
   delay: number,
-  setGrid: Dispatch<Grid>
+  setGrid: (grid: Grid) => void
 ) => {
   const newGrid: Grid = clearWalls(grid)
 
@@ -61,7 +61,7 @@ type RecursiveDivisionParams = {
   col: number
   height: number
   width: number
-  setGrid: Dispatch<Grid>
+  setGrid: (grid: Grid) => void
 }
 
 const horizontalDivision = async ({

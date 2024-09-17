@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import { VisualizerContext } from "@/components/providers/visualizer"
+import { VisualizerContext } from "@/components/visualizer-provider"
 
 export const useVisualizer = () => {
   const context = useContext(VisualizerContext)

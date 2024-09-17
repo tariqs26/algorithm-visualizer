@@ -1,40 +1,38 @@
 import type { SortingAlgorithm } from "../types"
 import { sleep } from "../utils"
 
-export const bubbleSort: SortingAlgorithm = async (context) => {
-  const { array, delay, setArray, setStatus } = context
-  setStatus("running")
-  const n = array.length
-  const newArray = [...array]
+export const bubbleSort: SortingAlgorithm = async ({ state, dispatch }) => {
+  dispatch({ type: "SET_STATUS", payload: "running" })
+  const n = state.array.length
+  const newArray = [...state.array]
 
   for (let i = 0; i < n - 1; i++) {
     for (let j = 0; j < n - i - 1; j++) {
       if (newArray[j].height > newArray[j + 1].height) {
         newArray[j].isSwapping = true
         newArray[j + 1].isSwapping = true
-        setArray([...newArray])
-        await sleep(delay)
+        dispatch({ type: "SET_ARRAY", payload: [...newArray] })
+        await sleep(state.delay)
         ;[newArray[j], newArray[j + 1]] = [newArray[j + 1], newArray[j]]
         newArray[j].isSwapping = false
         newArray[j + 1].isSwapping = false
-        await sleep(delay)
-        setArray([...newArray])
+        await sleep(state.delay)
+        dispatch({ type: "SET_ARRAY", payload: [...newArray] })
       }
     }
 
-    await sleep(delay)
+    await sleep(state.delay)
     newArray[n - i - 1].isSorted = true
-    setArray([...newArray])
+    dispatch({ type: "SET_ARRAY", payload: [...newArray] })
   }
   newArray[0].isSorted = true
-  setArray([...newArray])
+  dispatch({ type: "SET_ARRAY", payload: [...newArray] })
 }
 
-export const selectionSort: SortingAlgorithm = async (context) => {
-  const { array, delay, setArray, setStatus } = context
-  setStatus("running")
-  const n = array.length
-  const newArray = [...array]
+export const selectionSort: SortingAlgorithm = async ({ state, dispatch }) => {
+  dispatch({ type: "SET_STATUS", payload: "running" })
+  const n = state.array.length
+  const newArray = [...state.array]
 
   for (let i = 0; i < n - 1; i++) {
     let minIndex = i
@@ -43,26 +41,25 @@ export const selectionSort: SortingAlgorithm = async (context) => {
 
     newArray[i].isSwapping = true
     newArray[minIndex].isSwapping = true
-    setArray([...newArray])
-    await sleep(delay)
+    dispatch({ type: "SET_ARRAY", payload: [...newArray] })
+    await sleep(state.delay)
     ;[newArray[i], newArray[minIndex]] = [newArray[minIndex], newArray[i]]
     newArray[i].isSwapping = false
     newArray[minIndex].isSwapping = false
     newArray[i].isSorted = true
-    await sleep(delay)
-    setArray([...newArray])
+    await sleep(state.delay)
+    dispatch({ type: "SET_ARRAY", payload: [...newArray] })
   }
 
-  await sleep(delay)
+  await sleep(state.delay)
   newArray[n - 1].isSorted = true
-  setArray([...newArray])
+  dispatch({ type: "SET_ARRAY", payload: [...newArray] })
 }
 
-export const insertionSort: SortingAlgorithm = async (context) => {
-  const { array, delay, setArray, setStatus } = context
-  setStatus("running")
-  const n = array.length
-  const newArray = [...array]
+export const insertionSort: SortingAlgorithm = async ({ state, dispatch }) => {
+  dispatch({ type: "SET_STATUS", payload: "running" })
+  const n = state.array.length
+  const newArray = [...state.array]
 
   for (let i = 1; i < n; i++) {
     const key = newArray[i]
@@ -70,26 +67,25 @@ export const insertionSort: SortingAlgorithm = async (context) => {
 
     while (j >= 0 && newArray[j].height > key.height) {
       newArray[j + 1].isSwapping = true
-      setArray([...newArray])
-      await sleep(delay)
+      dispatch({ type: "SET_ARRAY", payload: [...newArray] })
+      await sleep(state.delay)
       newArray[j + 1].isSwapping = false
       newArray[j + 1] = newArray[j]
-      await sleep(delay)
-      setArray([...newArray])
+      await sleep(state.delay)
+      dispatch({ type: "SET_ARRAY", payload: [...newArray] })
       j--
     }
 
     newArray[j + 1] = key
-    await sleep(delay)
-    setArray([...newArray])
+    await sleep(state.delay)
+    dispatch({ type: "SET_ARRAY", payload: [...newArray] })
   }
 
-  setArray(newArray.map((item) => ({ ...item, isSorted: true })))
+  dispatch({ type: "SORT_ARRAY" })
 }
 
-export const quickSort: SortingAlgorithm = async (context) => {
-  const { array, delay, setArray, setStatus } = context
-  const newArray = [...array]
+export const quickSort: SortingAlgorithm = async ({ state, dispatch }) => {
+  const newArray = [...state.array]
 
   const partition = async (low: number, high: number) => {
     const pivot = newArray[high]
@@ -100,25 +96,25 @@ export const quickSort: SortingAlgorithm = async (context) => {
         i++
         newArray[i].isSwapping = true
         newArray[j].isSwapping = true
-        setArray([...newArray])
-        await sleep(delay)
+        dispatch({ type: "SET_ARRAY", payload: [...newArray] })
+        await sleep(state.delay)
         ;[newArray[i], newArray[j]] = [newArray[j], newArray[i]]
         newArray[i].isSwapping = false
         newArray[j].isSwapping = false
-        await sleep(delay)
-        setArray([...newArray])
+        await sleep(state.delay)
+        dispatch({ type: "SET_ARRAY", payload: [...newArray] })
       }
     }
 
     newArray[i + 1].isSwapping = true
     newArray[high].isSwapping = true
-    setArray([...newArray])
-    await sleep(delay)
+    dispatch({ type: "SET_ARRAY", payload: [...newArray] })
+    await sleep(state.delay)
     ;[newArray[i + 1], newArray[high]] = [newArray[high], newArray[i + 1]]
     newArray[i + 1].isSwapping = false
     newArray[high].isSwapping = false
-    await sleep(delay)
-    setArray([...newArray])
+    await sleep(state.delay)
+    dispatch({ type: "SET_ARRAY", payload: [...newArray] })
 
     return i + 1
   }
@@ -130,49 +126,49 @@ export const quickSort: SortingAlgorithm = async (context) => {
     }
   }
 
-  setStatus("running")
+  dispatch({ type: "SET_STATUS", payload: "running" })
   await sort(0, newArray.length - 1)
-  setArray(newArray.map((item) => ({ ...item, isSorted: true })))
+  dispatch({ type: "SORT_ARRAY" })
 }
 
-export const mergeSort: SortingAlgorithm = async (context) => {
-  const { array, delay, setArray, setStatus } = context
+export const mergeSort: SortingAlgorithm = async ({ state, dispatch }) => {
+  const newArray = [...state.array]
   const merge = async (l: number, m: number, r: number) => {
     const n1 = m - l + 1
     const n2 = r - m
-    const left = array.slice(l, m + 1)
-    const right = array.slice(m + 1, r + 1)
+    const left = newArray.slice(l, m + 1)
+    const right = newArray.slice(m + 1, r + 1)
     let i = 0
     let j = 0
     let k = l
 
     while (i < n1 && j < n2) {
       if (left[i].height <= right[j].height) {
-        array[k] = left[i]
+        newArray[k] = left[i]
         i++
       } else {
-        array[k] = right[j]
+        newArray[k] = right[j]
         j++
       }
-      await sleep(delay)
-      setArray([...array])
+      await sleep(state.delay)
+      dispatch({ type: "SET_ARRAY", payload: [...newArray] })
       k++
     }
 
     while (i < n1) {
-      array[k] = left[i]
+      newArray[k] = left[i]
       i++
       k++
-      await sleep(delay)
-      setArray([...array])
+      await sleep(state.delay)
+      dispatch({ type: "SET_ARRAY", payload: [...newArray] })
     }
 
     while (j < n2) {
-      array[k] = right[j]
+      newArray[k] = right[j]
       j++
       k++
-      await sleep(delay)
-      setArray([...array])
+      await sleep(state.delay)
+      dispatch({ type: "SET_ARRAY", payload: [...newArray] })
     }
   }
 
@@ -185,7 +181,7 @@ export const mergeSort: SortingAlgorithm = async (context) => {
     }
   }
 
-  setStatus("running")
-  await mergeSortHelper(0, array.length - 1)
-  setArray(array.map((item) => ({ ...item, isSorted: true })))
+  dispatch({ type: "SET_STATUS", payload: "running" })
+  await mergeSortHelper(0, newArray.length - 1)
+  dispatch({ type: "SORT_ARRAY" })
 }

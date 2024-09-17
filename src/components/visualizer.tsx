@@ -1,12 +1,12 @@
-import { siteConfig } from "@/config/site"
-import { cn } from "@/lib/utils"
-import { useVisualizer } from "@/hooks/useVisualizer"
-import { Grid } from "./grid"
 import { Github } from "lucide-react"
+import { siteConfig } from "@/config/site"
+import { useVisualizer } from "@/hooks/useVisualizer"
+import { cn } from "@/lib/utils"
+import { Grid } from "./grid"
 import { Button } from "./ui/button"
 
 export const Visualizer = () => {
-  const { algorithmType, array } = useVisualizer()
+  const { state } = useVisualizer()
 
   return (
     <main className="flex-1 p-4">
@@ -23,9 +23,9 @@ export const Visualizer = () => {
         </Button>
       </h1>
       <section className="h-[calc(100vh-5rem)] border">
-        {algorithmType === "sorting" ? (
+        {state.algorithmType === "sorting" ? (
           <div className="flex h-full items-end bg-muted/50 p-2 backdrop-blur">
-            {array.map((item, index) => (
+            {state.array.map((item, index) => (
               <div
                 key={index}
                 className="mx-px w-full"

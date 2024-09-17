@@ -14,7 +14,7 @@ export const Grid = () => {
   const [isMouseDown, setIsMouseDown] = useState(false)
   const [active, setActive] = useState<Cell | undefined>(undefined)
   const [over, setOver] = useState<Cell | undefined>(undefined)
-  const { grid, status, setGrid, setGridDimensions } = useVisualizer()
+  const { state, dispatch } = useVisualizer()
   const mounted = useMounted()
 
   useEffect(() => {
@@ -25,7 +25,7 @@ export const Grid = () => {
       const width = Math.round(rect.width) - 2 * CELL_SIZE
       const rows = makeOdd(Math.floor(height / CELL_SIZE))
       const cols = makeOdd(Math.floor(width / CELL_SIZE))
-      setGridDimensions({ rows, cols })
+      dispatch({ type: "SET_GRID_DIMENSIONS", payload: { rows, cols } })
     }
     if (mounted) resizeEventListener()
     window.addEventListener("resize", resizeEventListener)
@@ -33,26 +33,18 @@ export const Grid = () => {
   }, [mounted])
 
   const handleMouseDown = (cell: Cell) => {
-    if (status !== "idle") return
+    if (state.status !== "idle") return
     if (isStartOrTarget(cell)) {
       setActive(cell)
       return
     }
     setIsMouseDown(true)
-    grid[cell.row][cell.col].type = cell.type === "empty" ? "wall" : "empty"
-    setGrid([...grid])
+    dispatch({ type: "DRAW_GRID_WALL", payload: cell })
   }
 
   const handleMouseEnter = (cell: Cell) => {
-    if (
-      !isMouseDown ||
-      cell.type === "start" ||
-      cell.type === "target" ||
-      status !== "idle"
-    )
-      return
-    grid[cell.row][cell.col].type = cell.type === "empty" ? "wall" : "empty"
-    setGrid([...grid])
+    if (!isMouseDown || isStartOrTarget(cell) || state.status !== "idle") return
+    dispatch({ type: "DRAW_GRID_WALL", payload: cell })
   }
 
   const handleMouseUp = () => {
@@ -70,10 +62,10 @@ export const Grid = () => {
 
   const handleDragEnd = () => {
     if (active === undefined || over === undefined) return
-    console.log(over.row, over.col)
+    const grid = [...state.grid]
     grid[active.row][active.col].type = "empty"
     grid[over.row][over.col].type = active.type
-    setGrid([...grid])
+    dispatch({ type: "SET_GRID", payload: [...grid] })
     setActive(undefined)
     setOver(undefined)
   }
@@ -87,27 +79,26 @@ export const Grid = () => {
       onDragEnd={handleDragEnd}
     >
       <div className="m-auto">
-        {grid.map((row, rowIndex) => (
+        {state.grid.map((row, rowIndex) => (
           <div key={rowIndex} className="flex">
-            {row.map((cell, colIndex) => (
+            {row.map((cell) => (
               <div
-                key={`${rowIndex}-${colIndex}`}
+                key={`${cell.row}-${cell.col}`}
                 className={cn(
                   "border border-muted-foreground/30 first:border-l-2 last:border-r-2",
-                  rowIndex === grid.length - 1 && "border-b-2",
+                  rowIndex === state.grid.length - 1 && "border-b-2",
                   rowIndex === 0 && "border-t-2",
                   cell.type === "wall" &&
                     "border-neutral-800 dark:border-neutral-600"
                 )}
               >
                 <GridCell
-                  key={`${rowIndex}-${colIndex}`}
                   handleMouseDown={handleMouseDown}
                   handleMouseEnter={handleMouseEnter}
                   handleMouseLeave={handleMouseUp}
                   handleDragEnter={handleDragEnter}
                   active={active}
-                  disabled={status !== "idle"}
+                  disabled={state.status !== "idle"}
                   {...cell}
                 />
               </div>
