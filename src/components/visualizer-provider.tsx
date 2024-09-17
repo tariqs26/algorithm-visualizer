@@ -1,5 +1,3 @@
-"use client"
-
 import { createContext, useEffect, useReducer } from "react"
 import { initializeGrid } from "@/lib/pathfinding/grid"
 import type { VisualizerContextType, VisualizerState } from "@/lib/types"
