@@ -2,6 +2,8 @@
 
 A web application for visualizing popular pathfinding and sorting algorithms built with [Next.js](https://nextjs.org/), [React](https://reactjs.org/), [TypeScript](https://www.typescriptlang.org/), and [Tailwind CSS](https://tailwindcss.com/).
 
+![Algorithm Visualizer](./public/og-image.jpg)
+
 ## Features
 
 ### Pathfinding
