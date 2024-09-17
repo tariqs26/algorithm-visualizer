@@ -34,7 +34,7 @@ export const VisualizerProvider = ({
         type: "SET_GRID",
         payload: initializeGrid(state.gridDimensions),
       })
-  }, [state.algorithmType, state.gridDimensions])
+  }, [state.algorithmType, state.arrayLength, state.gridDimensions])
 
   useEffect(() => {
     if (state.status === "running")
