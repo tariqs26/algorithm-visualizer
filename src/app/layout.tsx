@@ -3,7 +3,6 @@ import { Inter } from "next/font/google"
 
 import { siteConfig } from "@/config/site"
 import { ThemeProvider } from "@/components/theme-provider"
-import { VisualizerProvider } from "@/components/visualizer-provider"
 import "./globals.css"
 
 const inter = Inter({ subsets: ["latin"] })
@@ -38,7 +37,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <VisualizerProvider>{children}</VisualizerProvider>
+          {children}
         </ThemeProvider>
       </body>
     </html>
