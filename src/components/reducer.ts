@@ -49,7 +49,7 @@ export const reducer = (
       }
     case "SET_ARRAY_LENGTH":
       return { ...state, arrayLength: action.payload }
-    default:
+    case "RESET_VISUALIZER":
       return {
         ...state,
         output: [],
@@ -63,5 +63,7 @@ export const reducer = (
             ? clearVisitedAndPath(state.grid)
             : state.grid,
       }
+    default:
+      throw new Error("Non-exhaustive match")
   }
 }
