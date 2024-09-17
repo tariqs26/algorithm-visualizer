@@ -28,7 +28,7 @@ export const getNeighbours = <T extends Cell>(grid: Grid<T>, cell: T) => {
   if (row < grid.length - 1) neighbours.push(grid[row + 1][col])
   if (col > 0) neighbours.push(grid[row][col - 1])
   if (col < grid[0].length - 1) neighbours.push(grid[row][col + 1])
-  return neighbours.filter((neighbour) => neighbour.type !== "wall") as T[]
+  return neighbours.filter((neighbour) => neighbour.type !== "wall")
 }
 
 export const initializeGrid = (gridDimensions?: GridDimensions) => {
