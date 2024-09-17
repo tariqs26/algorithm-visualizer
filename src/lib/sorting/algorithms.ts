@@ -143,30 +143,21 @@ export const mergeSort: SortingAlgorithm = async ({ state, dispatch }) => {
     let k = l
 
     while (i < n1 && j < n2) {
-      if (left[i].height <= right[j].height) {
-        newArray[k] = left[i]
-        i++
-      } else {
-        newArray[k] = right[j]
-        j++
-      }
+      if (left[i].height <= right[j].height) newArray[k] = left[i++]
+      else newArray[k] = right[j++]
       await sleep(state.delay)
       dispatch({ type: "SET_ARRAY", payload: [...newArray] })
       k++
     }
 
     while (i < n1) {
-      newArray[k] = left[i]
-      i++
-      k++
+      newArray[k++] = left[i++]
       await sleep(state.delay)
       dispatch({ type: "SET_ARRAY", payload: [...newArray] })
     }
 
     while (j < n2) {
-      newArray[k] = right[j]
-      j++
-      k++
+      newArray[k++] = right[j++]
       await sleep(state.delay)
       dispatch({ type: "SET_ARRAY", payload: [...newArray] })
     }
