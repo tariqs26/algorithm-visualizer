@@ -14,7 +14,7 @@ export const constructBorder = async (
 ) => {
   const newGrid: Grid = clearWalls(grid)
 
-  const shape = [
+  const directions = [
     { x: 0, y: 1 },
     { x: 1, y: 0 },
     { x: 0, y: -1 },
@@ -25,9 +25,7 @@ export const constructBorder = async (
   let col = 0
   let iterations = 0
 
-  for (let i = 0; i < shape.length; i++) {
-    const direction = shape[i]
-
+  for (const direction of directions) {
     while (
       row + direction.x >= 0 &&
       row + direction.x < newGrid.length &&
