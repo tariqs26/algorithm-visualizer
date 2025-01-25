@@ -20,13 +20,17 @@ export default function Home() {
         !isLargeViewport && "items-center justify-center"
       )}
     >
-      {!mounted ? null : isLargeViewport ? (
+      {!mounted ? null : (
         <VisualizerProvider>
-          <Sidebar />
-          <Visualizer />
+          {isLargeViewport ? (
+            <>
+              <Sidebar />
+              <Visualizer />
+            </>
+          ) : (
+            <SmallViewportCard />
+          )}
         </VisualizerProvider>
-      ) : (
-        <SmallViewportCard />
       )}
     </article>
   )
