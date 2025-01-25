@@ -83,7 +83,7 @@ export const Sidebar = () => {
   }
 
   return (
-    <aside className="bg-muted flex w-64 shrink-0 flex-col gap-y-4 border-r p-4">
+    <aside className="flex w-64 shrink-0 flex-col gap-y-4 border-r bg-muted p-4">
       <header className="flex items-center justify-between">
         <h2 className="text-xl font-bold">Settings</h2>
         <ThemeToggle />
@@ -272,12 +272,12 @@ export const Sidebar = () => {
       <div className="mt-2">
         <h3 className="mb-1 text-lg font-bold">Output</h3>
         {output.length === 0 && (
-          <p className="text-muted-foreground text-sm font-medium">
+          <p className="text-sm font-medium text-muted-foreground">
             Log messages will appear here
           </p>
         )}
         {output.map((line, index) => (
-          <p key={line} className="text-muted-foreground text-sm font-medium">
+          <p key={line} className="text-sm font-medium text-muted-foreground">
             <span className="mr-1 text-blue-600 dark:text-blue-400">
               [{index + 1}]
             </span>

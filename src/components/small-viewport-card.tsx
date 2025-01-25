@@ -21,7 +21,7 @@ export const SmallViewportCard = () => (
         Your browser does not support the video tag.
       </video>
     </div>
-    <span className="text-muted-foreground text-sm">
+    <span className="text-sm text-muted-foreground">
       Minimum supported viewport size is {MIN_VIEWPORT_WIDTH}px width and{" "}
       {MIN_VIEWPORT_HEIGHT}px height.
     </span>
