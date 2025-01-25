@@ -75,7 +75,7 @@ export const Grid = () => {
       ref={gridRef}
       onMouseLeave={handleMouseUp}
       onMouseUp={handleMouseUp}
-      className="flex h-full w-[calc(100vw-18.2rem)] bg-muted/50 backdrop-blur"
+      className="bg-muted/50 flex h-full w-[calc(100vw-18.2rem)] backdrop-blur"
       onDragEnd={handleDragEnd}
     >
       <div className="m-auto">
@@ -85,7 +85,7 @@ export const Grid = () => {
               <div
                 key={`${cell.row}-${cell.col}`}
                 className={cn(
-                  "border border-muted-foreground/30 first:border-l-2 last:border-r-2",
+                  "border-muted-foreground/30 border first:border-l-2 last:border-r-2",
                   rowIndex === state.grid.length - 1 && "border-b-2",
                   rowIndex === 0 && "border-t-2",
                   cell.type === "wall" &&

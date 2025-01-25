@@ -24,7 +24,7 @@ export const Visualizer = () => {
       </h1>
       <section className="h-[calc(100vh-5rem)] border">
         {state.algorithmType === "sorting" ? (
-          <div className="flex h-full items-end bg-muted/50 p-2 backdrop-blur">
+          <div className="bg-muted/50 flex h-full items-end p-2 backdrop-blur">
             {state.array.map((item, index) => (
               <div
                 key={index}
