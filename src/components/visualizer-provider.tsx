@@ -53,8 +53,8 @@ export const VisualizerProvider = ({
   }, [state.status])
 
   return (
-    <VisualizerContext.Provider value={{ state, dispatch }}>
+    <VisualizerContext value={{ state, dispatch }}>
       {children}
-    </VisualizerContext.Provider>
+    </VisualizerContext>
   )
 }
