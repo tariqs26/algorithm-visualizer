@@ -84,6 +84,52 @@ export const insertionSort: SortingAlgorithm = async ({ state, dispatch }) => {
   dispatch({ type: "SORT_ARRAY" })
 }
 
+export const mergeSort: SortingAlgorithm = async ({ state, dispatch }) => {
+  const newArray = [...state.array]
+  const merge = async (l: number, m: number, r: number) => {
+    const n1 = m - l + 1
+    const n2 = r - m
+    const left = newArray.slice(l, m + 1)
+    const right = newArray.slice(m + 1, r + 1)
+    let i = 0
+    let j = 0
+    let k = l
+
+    while (i < n1 && j < n2) {
+      if (left[i].height <= right[j].height) newArray[k] = left[i++]
+      else newArray[k] = right[j++]
+      await sleep(state.delay)
+      dispatch({ type: "SET_ARRAY", payload: [...newArray] })
+      k++
+    }
+
+    while (i < n1) {
+      newArray[k++] = left[i++]
+      await sleep(state.delay)
+      dispatch({ type: "SET_ARRAY", payload: [...newArray] })
+    }
+
+    while (j < n2) {
+      newArray[k++] = right[j++]
+      await sleep(state.delay)
+      dispatch({ type: "SET_ARRAY", payload: [...newArray] })
+    }
+  }
+
+  const mergeSortHelper = async (l: number, r: number) => {
+    if (l < r) {
+      const m = Math.floor(l + (r - l) / 2)
+      await mergeSortHelper(l, m)
+      await mergeSortHelper(m + 1, r)
+      await merge(l, m, r)
+    }
+  }
+
+  dispatch({ type: "SET_STATUS", payload: "running" })
+  await mergeSortHelper(0, newArray.length - 1)
+  dispatch({ type: "SORT_ARRAY" })
+}
+
 export const quickSort: SortingAlgorithm = async ({ state, dispatch }) => {
   const newArray = [...state.array]
 
@@ -128,51 +174,5 @@ export const quickSort: SortingAlgorithm = async ({ state, dispatch }) => {
 
   dispatch({ type: "SET_STATUS", payload: "running" })
   await sort(0, newArray.length - 1)
-  dispatch({ type: "SORT_ARRAY" })
-}
-
-export const mergeSort: SortingAlgorithm = async ({ state, dispatch }) => {
-  const newArray = [...state.array]
-  const merge = async (l: number, m: number, r: number) => {
-    const n1 = m - l + 1
-    const n2 = r - m
-    const left = newArray.slice(l, m + 1)
-    const right = newArray.slice(m + 1, r + 1)
-    let i = 0
-    let j = 0
-    let k = l
-
-    while (i < n1 && j < n2) {
-      if (left[i].height <= right[j].height) newArray[k] = left[i++]
-      else newArray[k] = right[j++]
-      await sleep(state.delay)
-      dispatch({ type: "SET_ARRAY", payload: [...newArray] })
-      k++
-    }
-
-    while (i < n1) {
-      newArray[k++] = left[i++]
-      await sleep(state.delay)
-      dispatch({ type: "SET_ARRAY", payload: [...newArray] })
-    }
-
-    while (j < n2) {
-      newArray[k++] = right[j++]
-      await sleep(state.delay)
-      dispatch({ type: "SET_ARRAY", payload: [...newArray] })
-    }
-  }
-
-  const mergeSortHelper = async (l: number, r: number) => {
-    if (l < r) {
-      const m = Math.floor(l + (r - l) / 2)
-      await mergeSortHelper(l, m)
-      await mergeSortHelper(m + 1, r)
-      await merge(l, m, r)
-    }
-  }
-
-  dispatch({ type: "SET_STATUS", payload: "running" })
-  await mergeSortHelper(0, newArray.length - 1)
   dispatch({ type: "SORT_ARRAY" })
 }

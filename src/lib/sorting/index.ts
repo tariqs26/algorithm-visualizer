@@ -17,6 +17,6 @@ export const sorter = {
   selection: { algorithm: selectionSort, label: "Selection Sort" },
   bubble: { algorithm: bubbleSort, label: "Bubble Sort" },
   insertion: { algorithm: insertionSort, label: "Insertion Sort" },
-  quick: { algorithm: quickSort, label: "Quick Sort" },
   merge: { algorithm: mergeSort, label: "Merge Sort" },
+  quick: { algorithm: quickSort, label: "Quick Sort" },
 }
